@@ -1,5 +1,7 @@
 # Canvas Zoom
 
+## This version of canvas-zoom runs on a modified 3.28.1 gradio, so extensions like Posex, which broke on 1.3, start working again after this extension is installed
+
 An extension of [stable-diffusion-webui](https://github.com/AUTOMATIC1111/stable-diffusion-webui)
 
 Adds the ability to zoom into Inpaint, Sketch, and Inpaint Sketch.
@@ -93,6 +95,8 @@ In transparency mode, you can paint but the effect will not be what you expect, 
 # RU
 
 **Расширение совместимо с версией webui [1.1](https://github.com/AUTOMATIC1111/stable-diffusion-webui/releases/tag/v1.1.0), [1.2](https://github.com/AUTOMATIC1111/stable-diffusion-webui/releases/tag/v1.2.0) и [версией от 25 марта](https://github.com/AUTOMATIC1111/stable-diffusion-webui/commit/22bcc7be428c94e9408f589966c2040187245d81)**
+
+## Эта версия canvas-zoom работает на модифицированном градио 3.28.1, поэтому расширения такие как Posex, которые сломались на 1.3, снова начинают работать после установки этого расширения
 
 ## Важные замечания
 
