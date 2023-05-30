@@ -321,6 +321,13 @@ onUiLoaded(() => {
              </li>`;
                 }
 
+                if(item.action === "undo"){
+                  return  `<li data-action="${item.action}">
+                        <span><b>Ctr +  ${item.hotkey.charAt(item.hotkey.length - 1)} - </b></span> 
+                        ${item.label}
+                    </li>`;
+                }
+
                 return `<li data-action="${item.action}">
                <span><b>${item.hotkey.charAt(item.hotkey.length - 1)} - </b></span> 
                ${item.label}
@@ -361,7 +368,7 @@ onUiLoaded(() => {
         {
           action: "undo",
           hotkey: hotkeysConfig.undo,
-          label: "Undo",
+          label: "Undo last action",
         },
         {
           action: "resetZoom",
@@ -386,7 +393,7 @@ onUiLoaded(() => {
         {
           action: "loadCustomHotkeys",
           hotkey: "",
-          label: "Load custom hotkeys from customHotkeys.js file",
+          label: "Load custom hotkey config from customHotkeys.js file",
         },
         {
           action: "fillCanvasColor",
@@ -406,7 +413,7 @@ onUiLoaded(() => {
         {
           action: "togglePipette",
           hotkey: hotkeysConfig.togglePipette,
-          label: "Toggle Pipette",
+          label: "Toggle Pipette ( works in sketch and inpaint/sketch )",
         },
         {
           action: "toggleBrushOutline",
@@ -443,8 +450,8 @@ onUiLoaded(() => {
       e.preventDefault();
       contextMenu.innerHTML = generateContextMenuItems(menuItems);
       contextMenu.style.display = "block";
-      contextMenu.style.left = `${e.pageX}px`;
-      contextMenu.style.top = `${e.pageY}px`;
+      contextMenu.style.left = `${e.pageX-10}px`;
+      contextMenu.style.top = `${e.pageY-5}px`;
 
       timeoutId = setTimeout(() => {
         contextMenu.style.display = "none";
@@ -466,7 +473,7 @@ onUiLoaded(() => {
     contextMenu.addEventListener("mouseleave", () => {
       timeoutId = setTimeout(() => {
         contextMenu.style.display = "none";
-      }, 300);
+      }, 500);
     });
 
     contextMenu.addEventListener("mouseenter", () => {
@@ -911,6 +918,8 @@ onUiLoaded(() => {
         zoomLevel = scale;
         panX = offsetX;
         panY = offsetY;
+
+        fullScreenMode = false
         toggleOverlap("off");
       }
 
@@ -929,12 +938,16 @@ onUiLoaded(() => {
           return;
         }
 
-        resetZoom();
+        //Reset Zoom
+        targetElement.style.transform = `translate(${0}px, ${0}px) scale(${1})`;
+
+        // Get scrollbar width to right-align the image
+        const scrollbarWidth = window.innerWidth - document.documentElement.clientWidth;
 
         // Get element and screen dimensions
         const elementWidth = targetElement.offsetWidth;
         const elementHeight = targetElement.offsetHeight;
-        const screenWidth = window.innerWidth;
+        const screenWidth = window.innerWidth - scrollbarWidth;
         const screenHeight = window.innerHeight;
 
         // Get element's coordinates relative to the page
@@ -1044,6 +1057,12 @@ onUiLoaded(() => {
 
       // Reset zoom when click on another tab
       elements.img2imgTabs.addEventListener("click", resetZoom);
+      elements.img2imgTabs.addEventListener("click", () => {
+        // targetElement.style.width = "";
+        if (parseInt(targetElement.style.width) > 865) {
+            setTimeout(fitToElement, 0);
+        }
+    });
 
       targetElement.addEventListener("wheel", (e) => {
         // change zoom level
